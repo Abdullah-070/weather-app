@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, Moon, Menu, MapPin, RefreshCw, Settings as SettingsIcon } from 'lucide-react';
+import { Sun, Moon, Menu, MapPin, RefreshCw } from 'lucide-react';
 
 const Header = ({
   isDark,
@@ -7,7 +7,6 @@ const Header = ({
   onMenuClick,
   onLocationClick,
   onRefresh,
-  onSettingsClick,
   isRefreshing,
 }) => {
   return (
@@ -59,15 +58,6 @@ const Header = ({
           ) : (
             <Moon className="w-5 h-5 text-white" />
           )}
-        </button>
-
-        <button
-          onClick={onSettingsClick}
-          className="p-2 hover:bg-white/10 rounded-lg transition-colors hidden sm:block"
-          aria-label="Settings"
-          title="Settings"
-        >
-          <SettingsIcon className="w-5 h-5 text-white" />
         </button>
       </div>
     </header>

@@ -34,7 +34,6 @@ function App() {
   const { favorites, toggleFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const [showSidebar, setShowSidebar] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
 
   // Get background gradient based on weather condition and theme
   const getBackgroundClass = useCallback(() => {
@@ -97,7 +96,6 @@ function App() {
           onMenuClick={() => setShowSidebar(true)}
           onLocationClick={getWeatherForCurrentLocation}
           onRefresh={refresh}
-          onSettingsClick={() => setShowSettings(!showSettings)}
           isRefreshing={loading}
         />
 
@@ -144,15 +142,6 @@ function App() {
                     onRemove={removeFavorite}
                   />
                 </div>
-                {showSettings && (
-                  <Settings
-                    theme={theme}
-                    setTheme={setTheme}
-                    units={units}
-                    setUnits={setUnits}
-                    isDark={isDark}
-                  />
-                )}
               </>
             )}
           </div>
