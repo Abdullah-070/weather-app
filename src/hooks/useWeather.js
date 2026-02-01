@@ -5,7 +5,10 @@ import {
   getCurrentLocation,
   searchCities,
 } from '../services/weatherService';
-import { getUnits, setUnits as saveUnits } from '../utils/storage';
+import { getUnits, setUnits as saveUnits, getFavorites } from '../utils/storage';
+
+// Default fallback location (London) when geolocation fails
+const DEFAULT_LOCATION = { lat: 51.5074, lon: -0.1278 };
 
 export const useWeather = () => {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -55,8 +58,16 @@ export const useWeather = () => {
       const coords = await getCurrentLocation();
       await fetchWeatherData(coords.lat, coords.lon);
     } catch (err) {
-      setError(err.message || 'Failed to get current location');
-      setLoading(false);
+      console.error('Geolocation error:', err.message);
+      // Try to use first favorite as fallback, otherwise use default location
+      const favorites = getFavorites();
+      if (favorites.length > 0) {
+        await fetchWeatherData(favorites[0].lat, favorites[0].lon);
+      } else {
+        // Load default location but show a message
+        setError('Location access denied. Showing default location. Use search to find your city.');
+        await fetchWeatherData(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon);
+      }
     }
   }, [fetchWeatherData]);
 
